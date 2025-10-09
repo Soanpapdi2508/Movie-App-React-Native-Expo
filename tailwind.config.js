@@ -17,6 +17,8 @@ module.exports = {
           200: "#0f0d23",
         },
         accent: "#AB8BFF",
+        TabBarActive: "#151312",
+        TabBarUnActive: "#A8B5DB"
       },
     },
   },
