@@ -1,0 +1,4 @@
+/* These are Tailwind CSS directives. They require Tailwind and PostCSS to work. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
