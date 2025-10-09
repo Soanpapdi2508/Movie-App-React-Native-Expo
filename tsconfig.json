@@ -16,5 +16,5 @@
     "app/_layout.jsx",
     "app/(Tabs)/index.jsx",
     "nativewind-env.d.ts"
-  ]
+, "constants/icons.js", "constants/images.js"  ]
 }
