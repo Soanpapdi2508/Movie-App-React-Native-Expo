@@ -1,6 +1,7 @@
 import SearchBar from "@/Components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
+import { getMovies } from "@/Services/Operations/movieOperation";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, ScrollView, View } from "react-native";
@@ -19,7 +20,12 @@ const index = () => {
         alwaysBounceVertical={true}
       >
         <Image className="w-12 h-10 mt-20 mb-5 mx-auto" source={icons.logo} />
-        <SearchBar onPress={()=> {router.push("/search")}} placeholder={"Search for a Movie"}/>
+        <SearchBar
+          onPress={() => {
+            router.push("/search");
+          }}
+          placeholder={"Search for a Movie"}
+        />
       </ScrollView>
     </View>
   );

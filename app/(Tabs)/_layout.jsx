@@ -12,9 +12,7 @@ const TabIconComponent = ({ focused, icon, title }) => {
         source={images.highlight}
       >
         <Image className="size-5" source={icon} tintColor="#151312" />
-        <Text className="text-secondary text-base font-semibold">
-          {title}
-        </Text>
+        <Text className="text-secondary text-base font-semibold">{title}</Text>
       </ImageBackground>
     );
   }

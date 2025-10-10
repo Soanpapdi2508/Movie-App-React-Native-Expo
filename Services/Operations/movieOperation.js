@@ -1,7 +1,7 @@
 import { TMDB_CONFIG } from "../api";
 import { apiConnector } from "../apiConnector";
 
-export const getMovies = async ({ query }) => {
+export const getMovies = async (query) => {
   try {
     const endpoint = query
       ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
@@ -12,8 +12,11 @@ export const getMovies = async ({ query }) => {
       null,
       TMDB_CONFIG.HEADERS
     );
+    if (!response?.data) {
+      throw new Error();
+    }
     console.log("response of movies......", response);
-    const data = await response.json();
+    return response?.data?.results;
   } catch (error) {
     console.log("ERROR WHILE FETCHING MOVIES", error);
   }
