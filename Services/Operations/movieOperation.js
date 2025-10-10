@@ -1,7 +1,7 @@
 import { TMDB_CONFIG } from "../api";
 import { apiConnector } from "../apiConnector";
 
-export const getMovies = async (query) => {
+export const getMovies = async ({query}) => {
   try {
     const endpoint = query
       ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`

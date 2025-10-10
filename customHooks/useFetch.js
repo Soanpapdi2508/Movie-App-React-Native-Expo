@@ -12,7 +12,7 @@ const useFetch = (fetchFunction, autoFetch = true) => {
       const result = await fetchFunction();
       setData(result);
     } catch (err) {
-      setError(err instanceof Error ? err : newError("An Error Occurred"));
+      setError(err instanceof Error ? err : new Error("An Error Occurred"));
     } finally {
       setLoading(false);
     }
@@ -27,8 +27,9 @@ const useFetch = (fetchFunction, autoFetch = true) => {
     if (autoFetch) {
       fetchData();
     }
-    return { data, loading, error, refetch: fetchData, reset }; // refetch: fetchData matlab usko iss naam se use krna hai baaki jagah
   }, []);
+
+  return { data, loading, error, refetch: fetchData, reset }; // refetch: fetchData matlab usko iss naam se use krna hai baaki jagah
 };
 
 export default useFetch;
