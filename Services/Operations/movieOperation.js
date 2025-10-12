@@ -15,7 +15,6 @@ export const getMovies = async ({query}) => {
     if (!response?.data) {
       throw new Error();
     }
-    console.log("response of movies......", response);
     return response?.data?.results;
   } catch (error) {
     console.log("ERROR WHILE FETCHING MOVIES", error);

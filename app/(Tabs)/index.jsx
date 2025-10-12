@@ -1,3 +1,4 @@
+import MovieCard from "@/Components/MovieCard";
 import SearchBar from "@/Components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
@@ -22,9 +23,13 @@ const index = () => {
   } = useFetch(() => getMovies({ query: "" }));
   return (
     <View className="flex-1 bg-primary">
-      <Image className="absolute w-full z-0" source={images.bg} />
+      <Image
+        className="absolute w-full z-0"
+        source={images.bg}
+        resizeMode="cover"
+      />
       <ScrollView
-        className="flex-1 px-5"
+        className="flex-1 px-4"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           minHeight: "100%",
@@ -59,21 +64,15 @@ const index = () => {
             </Text>
             <FlatList
               data={movies}
-              renderItem={({ item }) => (
-                <View className="bg-dark-100 px-2 rounded-full ">
-                  <Text className="text-white text-sm ">{item.title}</Text>
-                </View>
-              )}
+              renderItem={({ item }) => <MovieCard singleMovie={item} />}
               keyExtractor={(item) => item.id.toString()}
-              numColumns={13}
+              numColumns={3}
               columnWrapperStyle={{
                 justifyContent: "flex-start",
-                gap: 10,
-                paddingRight: 5,
                 marginBottom: 10,
-                flexWrap: "wrap",
+                gap: 15,
               }}
-              className="mt-2 pb-32 flex-1"
+              className="mt-2 pb-32"
               scrollEnabled={false}
               nestedScrollEnabled={true}
             />
