@@ -1,4 +1,8 @@
+import MovieCard from "@/Components/MovieCard";
+import SearchBar from "@/Components/SearchBar";
+import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
+
 import useFetch from "@/customHooks/useFetch";
 import { getMovies } from "@/Services/Operations/movieOperation";
 import { FlatList, Image, View } from "react-native";
@@ -8,7 +12,7 @@ const search = () => {
     data: movies,
     loading,
     error: moviesError,
-  } = useFetch(() => getMovies({ query: "" }));
+  } = useFetch(() => getMovies({ query: "" }), false);
   return (
     <View className="flex-1 bg-primary">
       <Image
@@ -16,7 +20,23 @@ const search = () => {
         source={images.bg}
         resizeMode="cover"
       />
-      <FlatList />
+      <FlatList
+        data={movies}
+        renderItem={({ item }) => <MovieCard singleMovie={item} />}
+        numColumns={3}
+        columnWrapperStyle={{
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: 15,
+          marginBottom: 10,
+        }}
+        ListHeaderComponent={
+          <>
+            <Image className="h-10 w-12" source={icons.logo} />
+            <SearchBar placeholder="Search movies..." />
+          </>
+        }
+      />
     </View>
   );
 };
