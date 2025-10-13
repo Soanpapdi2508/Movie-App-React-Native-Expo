@@ -31,7 +31,7 @@ const search = () => {
   return (
     <View className="flex-1 bg-primary ">
       <Image
-        className="absolute z-0 w-full"
+        className="absolute flex-1 z-0 w-full"
         source={images.bg}
         resizeMode="cover"
       />
@@ -96,10 +96,11 @@ const search = () => {
                 <ActivityIndicator
                   size="large"
                   color={"#a8b5db"}
-                  className="my-60 self-center"
+                  className="self-center"
                 />
               )}
             </View>
+            <View>{moviesError && <Text className="my-60 self-center">{moviesError.message}</Text>}</View>
           </>
         }
       />
