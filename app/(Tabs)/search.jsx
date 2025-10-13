@@ -51,7 +51,7 @@ const search = () => {
           <>
             {
               <View className=" my-60">
-                {query?.length > 0 && movies?.length === 0 ? (
+                {!loading && !moviesError && query?.length > 0 && movies?.length === 0 ? (
                   <Text className="font-bold text-accent text-center text-3xl">
                     {`No Search Found for \n`}
                     <Text className="text-white italic text-2xl">{query}</Text>
