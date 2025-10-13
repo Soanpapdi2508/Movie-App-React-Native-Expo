@@ -100,7 +100,13 @@ const search = () => {
                 />
               )}
             </View>
-            <View>{moviesError && <Text className="my-60 self-center">{moviesError.message}</Text>}</View>
+            <View>
+              {moviesError && (
+                <Text className="my-60 self-center">
+                  Error: {moviesError.message}
+                </Text>
+              )}
+            </View>
           </>
         }
       />
