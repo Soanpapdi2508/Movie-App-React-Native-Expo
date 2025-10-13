@@ -5,16 +5,31 @@ import { images } from "@/constants/images";
 
 import useFetch from "@/customHooks/useFetch";
 import { getMovies } from "@/Services/Operations/movieOperation";
-import { FlatList, Image, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const search = () => {
+  const [query, setQuery] = useState("");
   const {
     data: movies,
     loading,
     error: moviesError,
-  } = useFetch(() => getMovies({ query: "" }), false);
+    refetch: againFetch,
+    reset,
+  } = useFetch(() => getMovies({ query: query }), false);
+  useEffect(() => {
+    const timeOutId = setTimeout(async () => {
+      if (query.trim()) {
+        await againFetch();
+      } else {
+        reset();
+      }
+    }, 500);
+    return () => clearTimeout(timeOutId);
+  }, [query]);
+  console.log(query);
   return (
-    <View className="flex-1 bg-primary">
+    <View className="flex-1 bg-primary ">
       <Image
         className="absolute z-0 w-full"
         source={images.bg}
@@ -24,16 +39,67 @@ const search = () => {
         data={movies}
         renderItem={({ item }) => <MovieCard singleMovie={item} />}
         numColumns={3}
+        keyExtractor={(item) => item.id.toString()}
         columnWrapperStyle={{
           justifyContent: "flex-start",
-          alignItems: "center",
-          gap: 15,
-          marginBottom: 10,
+          gap: 16,
+          marginVertical: 16,
         }}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+        }}
+        ListEmptyComponent={
+          <>
+            {
+              <View className=" my-60">
+                {query?.length > 0 && movies?.length === 0 ? (
+                  <Text className="font-bold text-accent text-center text-3xl">
+                    {`No Search Found for \n`}
+                    <Text className="text-white italic text-2xl">{query}</Text>
+                  </Text>
+                ) : (
+                  <Text className="font-bold text-accent text-center text-3xl">
+                    Search For a Movie...
+                  </Text>
+                )}
+              </View>
+            }
+          </>
+        }
         ListHeaderComponent={
           <>
-            <Image className="h-10 w-12" source={icons.logo} />
-            <SearchBar placeholder="Search movies..." />
+            <View className="flex-row w-full justify-center mt-20">
+              <Image className="h-10 w-12" source={icons.logo} />
+            </View>
+            <View className="mt-10">
+              <SearchBar
+                placeholder="Search movies..."
+                onChangeText={(text) => {
+                  setQuery(text);
+                }}
+                value={query}
+              />
+            </View>
+            <View className="my-5">
+              {!loading &&
+                !moviesError &&
+                query.trim() &&
+                movies?.length > 0 && (
+                  <Text className="font-bold text-accent text-xl">
+                    Search Results for:{" "}
+                    <Text className="text-slate-300 italic">{query}</Text>
+                  </Text>
+                )}
+            </View>
+            <View className="">
+              {loading && (
+                <ActivityIndicator
+                  size="large"
+                  color={"#a8b5db"}
+                  className="my-60 self-center"
+                />
+              )}
+            </View>
           </>
         }
       />

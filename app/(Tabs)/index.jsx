@@ -54,7 +54,7 @@ const index = () => {
             <View className="flex mt-5">
               <SearchBar
                 onPress={() => {
-                  router.push("/search");
+                  router.push("/search?autofocus=true");
                 }}
                 placeholder={"Search for a Movie"}
               />
