@@ -27,7 +27,6 @@ const search = () => {
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [query]);
-  console.log(query);
   return (
     <View className="flex-1 bg-primary ">
       <Image
