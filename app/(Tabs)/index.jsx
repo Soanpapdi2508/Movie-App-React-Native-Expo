@@ -3,6 +3,7 @@ import SearchBar from "@/Components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import useFetch from "@/customHooks/useFetch";
+import { database } from "@/Services/appwrite";
 import { getMovies } from "@/Services/Operations/movieOperation";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -16,6 +17,17 @@ import {
 } from "react-native";
 const index = () => {
   const router = useRouter();
+  const updateSearchCount = async () => {
+    try {
+      const result = await database.listTables(
+        process.env.EXPO_PUBLIC_APPWRITE_DOCUMENT_ID
+      );
+      console.log(result);
+      // we will check if the searchTerm = query or not if yes
+      // we will increment the count by 1 or we will create a new data of that particular searchTerm with count = 1
+    } catch (error) {}
+  };
+  updateSearchCount();
   let {
     data: movies,
     loading: moviesLoading,
