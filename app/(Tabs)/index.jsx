@@ -3,7 +3,6 @@ import SearchBar from "@/Components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import useFetch from "@/customHooks/useFetch";
-import { database } from "@/Services/appwrite";
 import { getMovies } from "@/Services/Operations/movieOperation";
 import { useRouter } from "expo-router";
 import React from "react";

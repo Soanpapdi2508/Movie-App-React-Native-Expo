@@ -4,7 +4,10 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 
 import useFetch from "@/customHooks/useFetch";
-import { getMovies } from "@/Services/Operations/movieOperation";
+import {
+  getMovies,
+  updateSearchCount,
+} from "@/Services/Operations/movieOperation";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
@@ -21,6 +24,9 @@ const search = () => {
     const timeOutId = setTimeout(async () => {
       if (query.trim()) {
         await againFetch();
+        if (movies?.length > 0 && movies[0]) {
+          await updateSearchCount(query, movies[0]);
+        }
       } else {
         reset();
       }
@@ -51,7 +57,10 @@ const search = () => {
           <>
             {
               <View className=" my-60">
-                {!loading && !moviesError && query?.length > 0 && movies?.length === 0 ? (
+                {!loading &&
+                !moviesError &&
+                query?.length > 0 &&
+                movies?.length === 0 ? (
                   <Text className="font-bold text-accent text-center text-3xl">
                     {`No Search Found for \n`}
                     <Text className="text-white italic text-2xl">{query}</Text>
