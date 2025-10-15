@@ -29,7 +29,7 @@ const search = () => {
     const timeoutId = setTimeout(async () => {
       try {
         const recentSearches = await getAllTrendingMovies();
-        setPrevSearches(recentSearches);
+        setPrevSearches(recentSearches.sort((a, b) => a.count - b.count));
       } catch (error) {
         console.error("Failed to fetch trending searches:", error);
       }

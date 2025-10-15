@@ -55,7 +55,7 @@ export const getAllTrendingMovies = async () => {
       throw new Error("Error while getting movies");
     }
     return response?.data?.data;
-  } catch (error) {
+  } catch (error) { 
     console.log("Error while getting trending movies", error.message);
     throw error;
   }

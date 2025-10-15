@@ -1,6 +1,5 @@
 import { icons } from "@/constants/icons";
 import { useLocalSearchParams } from "expo-router";
-import { useRef } from "react";
 import { Image, TextInput, View } from "react-native";
 const SearchBar = ({ onPress, placeholder, onChangeText, value }) => {
   const { autofocus } = useLocalSearchParams();
@@ -18,7 +17,7 @@ const SearchBar = ({ onPress, placeholder, onChangeText, value }) => {
         placeholder={placeholder}
         onChangeText={onChangeText}
         placeholderTextColor="#a8b5db"
-        style={{ color: "#a8b5db" }}
+        style={{ color: "#a8b5db", width:"100%" }}
         value={value}
       />
     </View>
