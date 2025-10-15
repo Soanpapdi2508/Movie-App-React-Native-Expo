@@ -1,5 +1,6 @@
 import MovieCard from "@/Components/MovieCard";
 import SearchBar from "@/Components/SearchBar";
+import TrendingCard from "@/Components/TrendingCard";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import useFetch from "@/customHooks/useFetch";
@@ -67,6 +68,23 @@ const index = () => {
                 }}
                 placeholder={"Search for a Movie"}
               />
+              {trendingMovies && (
+                <View className="mt-10 ">
+                  <Text className="text-lg text-white font-bold mt-5 mb-3">
+                    Trending Movies
+                  </Text>
+                  <FlatList
+                    ItemSeparatorComponent={() => <View className="w-8"></View>}
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    data={trendingMovies}
+                    renderItem={({ item, index }) => (
+                      <TrendingCard singleMovie={item} index={index} />
+                    )}
+                    keyExtractor={(item) => item.movie_id.toString()}
+                  />
+                </View>
+              )}
             </View>
             <Text className="text-lg text-white font-bold mt-5 mb-3">
               Latest Movies
