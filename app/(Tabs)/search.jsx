@@ -1,10 +1,12 @@
 import MovieCard from "@/Components/MovieCard";
+import RecentSearches from "@/Components/RecentSearches";
 import SearchBar from "@/Components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 
 import useFetch from "@/customHooks/useFetch";
 import {
+  getAllTrendingMovies,
   getMovies,
   updateSearchCount,
 } from "@/Services/Operations/movieOperation";
@@ -13,13 +15,28 @@ import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const search = () => {
   const [query, setQuery] = useState("");
+  const [prevSearches, setPrevSearches] = useState(null);
   const {
     data: movies,
-    loading,
+    loading: movieLoading,
     error: moviesError,
     refetch: againFetch,
     reset,
   } = useFetch(() => getMovies({ query: query }), false);
+
+  // Fetch trending searches on mount
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      try {
+        const recentSearches = await getAllTrendingMovies();
+        setPrevSearches(recentSearches);
+      } catch (error) {
+        console.error("Failed to fetch trending searches:", error);
+      }
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
   useEffect(() => {
     const timeOutId = setTimeout(async () => {
       if (query.trim()) {
@@ -30,14 +47,15 @@ const search = () => {
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [query]);
+
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(async () => {
       if (movies?.length > 0 && movies[0] && query.trim()) {
-        updateSearchCount(query, movies[0]);
+        await updateSearchCount(query, movies[0]);
       }
     }, 700);
     return () => clearTimeout(timeoutId);
-  }, [query, movies, updateSearchCount]);
+  }, [query]);
   return (
     <View className="flex-1 bg-primary ">
       <Image
@@ -62,7 +80,7 @@ const search = () => {
           <>
             {
               <View className=" my-60">
-                {!loading &&
+                {!movieLoading &&
                 !moviesError &&
                 query?.length > 0 &&
                 movies?.length === 0 ? (
@@ -71,9 +89,12 @@ const search = () => {
                     <Text className="text-white italic text-2xl">{query}</Text>
                   </Text>
                 ) : (
-                  <Text className="font-bold text-accent text-center text-3xl">
-                    Search For a Movie...
-                  </Text>
+                  !movieLoading &&
+                  !prevSearches && (
+                    <Text className="font-bold text-accent text-center text-3xl">
+                      Search For a Movie...
+                    </Text>
+                  )
                 )}
               </View>
             }
@@ -94,7 +115,7 @@ const search = () => {
               />
             </View>
             <View className="my-5">
-              {!loading &&
+              {!movieLoading &&
                 !moviesError &&
                 query.trim() &&
                 movies?.length > 0 && (
@@ -104,8 +125,28 @@ const search = () => {
                   </Text>
                 )}
             </View>
+            {!movieLoading &&
+              !moviesError &&
+              query.length === 0 &&
+              prevSearches && (
+                <View className="flex flex-row flex-wrap gap-2 items-center">
+                  <Text className="text-light-200 text-xl">
+                    Recent Searches:
+                  </Text>
+                  {prevSearches?.map((movie, index) => {
+                    return (
+                      <View key={index}>
+                        <RecentSearches
+                          title={movie.searchTerm}
+                          onPress={() => setQuery(movie.searchTerm)}
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
             <View className="">
-              {loading && (
+              {movieLoading && (
                 <ActivityIndicator
                   size="large"
                   color={"#a8b5db"}

@@ -51,7 +51,6 @@ export const updateSearchCount = async (
 export const getAllTrendingMovies = async () => {
   try {
     const response = await apiConnector("GET", GET_TRENDING_MOVIES);
-    console.log("RESPONSE FOR TRENDING MOVIES....", response);
     if (!response?.data?.success) {
       throw new Error("Error while getting movies");
     }
