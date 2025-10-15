@@ -1,6 +1,5 @@
-import { TMDB_CONFIG } from "../api";
+import { RECOMMENDATION, TMDB_CONFIG } from "../api";
 import { apiConnector } from "../apiConnector";
-import { RECOMMENDATION } from "../api";
 
 export const getMovies = async ({ query }) => {
   try {
@@ -27,34 +26,16 @@ export const updateSearchCount = async (
   { title, poster_path, id }
 ) => {
   try {
+    if (!searchQuery || !title || !poster_path || !id) {
+      return console.log("Something is missing to send data");
+    }
     const searchData = {
       searchQuery: searchQuery,
       title: title,
       poster_path: poster_path,
       movie_id: id,
     };
-
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    // Debug environment variables
-    console.log("🔍 DEBUG INFO:");
-    console.log(
-      "BACKEND_BASE_URL from env:",
-      process.env.EXPO_PUBLIC_BACKEND_BASE_URL
-    );
-    console.log("Full URL being called:", ADD_RECOMMENDATION);
-    console.log("Request data:", searchData);
-    console.log("Headers:", headers);
-
-    const response = await apiConnector(
-      "POST",
-      ADD_RECOMMENDATION,
-      searchData,
-      headers
-    );
-    console.log("✅ SUCCESS - Response received:", response);
+    const response = await apiConnector("POST", ADD_RECOMMENDATION, searchData);
 
     if (!response?.data?.success) {
       throw new Error("Backend returned unsuccessful response");
@@ -63,24 +44,20 @@ export const updateSearchCount = async (
     return response.data;
   } catch (error) {
     console.log("❌ ERROR while Adding Recommendation:", error.message);
-
-    // More detailed error logging
-    if (error.response) {
-      console.log("📋 Response error details:");
-      console.log("  Status:", error.response.status);
-      console.log("  Data:", error.response.data);
-      console.log("  Headers:", error.response.headers);
-    } else if (error.request) {
-      console.log("🌐 Network error - no response received");
-      console.log("  Request config:", {
-        method: error.config?.method,
-        url: error.config?.url,
-        timeout: error.config?.timeout,
-      });
-    } else {
-      console.log("⚙️ Request setup error:", error.message);
-    }
-
     throw error; // Re-throw to handle in calling code
+  }
+};
+
+export const getAllTrendingMovies = async () => {
+  try {
+    const response = await apiConnector("GET", GET_TRENDING_MOVIES);
+    console.log("RESPONSE FOR TRENDING MOVIES....", response);
+    if (!response?.data?.success) {
+      throw new Error("Error while getting movies");
+    }
+    return response?.data?.data;
+  } catch (error) {
+    console.log("Error while getting trending movies", error.message);
+    throw error;
   }
 };
