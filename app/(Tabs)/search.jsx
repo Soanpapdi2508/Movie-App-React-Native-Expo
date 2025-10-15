@@ -128,6 +128,7 @@ const search = () => {
             {!movieLoading &&
               !moviesError &&
               query.length === 0 &&
+              !movies &&
               prevSearches && (
                 <View className="flex flex-row flex-wrap gap-2 items-center">
                   <Text className="text-light-200 text-xl">
