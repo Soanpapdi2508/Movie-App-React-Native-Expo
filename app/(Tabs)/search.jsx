@@ -120,7 +120,7 @@ const search = () => {
                 query.trim() &&
                 movies?.length > 0 && (
                   <Text className="font-bold text-accent text-xl">
-                    Search Results for:{" "}
+                    Search Results for:
                     <Text className="text-slate-300 italic">{query}</Text>
                   </Text>
                 )}
