@@ -15,7 +15,6 @@ import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const search = () => {
   const [query, setQuery] = useState("");
-  const [prevSearches, setPrevSearches] = useState(null);
   const {
     data: movies,
     loading: movieLoading,
@@ -25,18 +24,11 @@ const search = () => {
   } = useFetch(() => getMovies({ query: query }), false);
 
   // Fetch trending searches on mount
-  useEffect(() => {
-    const timeoutId = setTimeout(async () => {
-      try {
-        const recentSearches = await getAllTrendingMovies();
-        setPrevSearches(recentSearches.sort((a, b) => a.count - b.count));
-      } catch (error) {
-        console.error("Failed to fetch trending searches:", error);
-      }
-    }, 1000);
-    return () => clearTimeout(timeoutId);
-  }, [query]);
-
+  const {
+    data: prevSearches,
+    loading: searchLoading,
+    error: searchError,
+  } = useFetch(getAllTrendingMovies);
   useEffect(() => {
     const timeOutId = setTimeout(async () => {
       if (query.trim()) {
@@ -80,8 +72,8 @@ const search = () => {
           <>
             {
               <View className=" my-60">
-                {!movieLoading &&
-                !moviesError &&
+                {(!movieLoading || !searchLoading) &&
+                (!moviesError || !searchError) &&
                 query?.length > 0 &&
                 movies?.length === 0 ? (
                   <Text className="font-bold text-accent text-center text-3xl">
@@ -89,12 +81,12 @@ const search = () => {
                     <Text className="text-white italic text-2xl">{query}</Text>
                   </Text>
                 ) : (
-                  !movieLoading &&
-                  !prevSearches && (
+                  !movieLoading ||
+                  (!searchLoading && !prevSearches && (
                     <Text className="font-bold text-accent text-center text-3xl">
                       Search For a Movie...
                     </Text>
-                  )
+                  ))
                 )}
               </View>
             }
@@ -115,8 +107,8 @@ const search = () => {
               />
             </View>
             <View className="my-5">
-              {!movieLoading &&
-                !moviesError &&
+              {(!movieLoading || !searchLoading) &&
+                (!moviesError || !searchError) &&
                 query.trim() &&
                 movies?.length > 0 && (
                   <Text className="font-bold text-accent text-xl">
@@ -125,8 +117,8 @@ const search = () => {
                   </Text>
                 )}
             </View>
-            {!movieLoading &&
-              !moviesError &&
+            {(!movieLoading || !searchLoading) &&
+              (!moviesError || !searchError) &&
               query.length === 0 &&
               !movies &&
               prevSearches && (
@@ -147,7 +139,7 @@ const search = () => {
                 </View>
               )}
             <View className="">
-              {movieLoading && (
+              {(movieLoading || searchLoading) && (
                 <ActivityIndicator
                   size="large"
                   color={"#a8b5db"}
@@ -156,9 +148,9 @@ const search = () => {
               )}
             </View>
             <View>
-              {moviesError && (
+              {(moviesError || searchError) && (
                 <Text className="my-60 self-center">
-                  Error: {moviesError.message}
+                  Error: {moviesError.message || searchError.message}
                 </Text>
               )}
             </View>

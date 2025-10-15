@@ -3,7 +3,10 @@ import SearchBar from "@/Components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import useFetch from "@/customHooks/useFetch";
-import { getMovies } from "@/Services/Operations/movieOperation";
+import {
+  getAllTrendingMovies,
+  getMovies,
+} from "@/Services/Operations/movieOperation";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -16,22 +19,17 @@ import {
 } from "react-native";
 const index = () => {
   const router = useRouter();
-  const updateSearchCount = async () => {
-    try {
-      const result = await database.listTables(
-        process.env.EXPO_PUBLIC_APPWRITE_DOCUMENT_ID
-      );
-      console.log(result);
-      // we will check if the searchTerm = query or not if yes
-      // we will increment the count by 1 or we will create a new data of that particular searchTerm with count = 1
-    } catch (error) {}
-  };
-  updateSearchCount();
-  let {
+  const {
     data: movies,
     loading: moviesLoading,
     error: moviesError,
   } = useFetch(() => getMovies({ query: "" }));
+  const {
+    data: trendingMovies,
+    loading: trendingLoading,
+    error: trendingError,
+  } = useFetch(getAllTrendingMovies);
+
   return (
     <View className="flex-1 bg-primary">
       <Image
@@ -50,7 +48,7 @@ const index = () => {
       >
         <Image className="w-12 h-10 mt-20 mb-5 mx-auto" source={icons.logo} />
 
-        {moviesLoading ? (
+        {moviesLoading || trendingError ? (
           <View className="flex-1 items-center justify-center">
             <ActivityIndicator
               size="large"
@@ -58,8 +56,8 @@ const index = () => {
               className="mb-14 self-center"
             />
           </View>
-        ) : moviesError ? (
-          <Text>Error: {moviesError?.error}</Text>
+        ) : moviesError || trendingError ? (
+          <Text>Error: {moviesError?.error || trendingError?.error}</Text>
         ) : (
           <View>
             <View className="flex mt-5">
