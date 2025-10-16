@@ -17,19 +17,23 @@ const MovieCard = ({ singleMovie }) => {
           }}
           className="w-full h-52 rounded-lg"
         />
-        <Text className="text-white text-sm text-start" numberOfLines={1}>
-          {title}
-        </Text>
-        <View className="flex flex-row justify-start items-center gap-x-1">
-          <Image source={icons.star} className="size-5" />
-          <Text className="text-white text-xs font-bold uppercase">
-            {Math.round(vote_average) / 2}
+        <View className="absolute bottom-0 bg-[#000000a7] rounded-b-lg p-0.5 w-full">
+          <Text className="text-white text-sm text-start" >
+            {title}
           </Text>
-        </View>
-        <View className="flex-row justify-between items-center">
-          <Text className="text-xs text-light-300">
-            {release_date.split("-")[0]}
-          </Text>
+          <View className="flex flex-row  justify-between">
+            <View className="flex flex-row justify-start items-center gap-x-1">
+              <Image source={icons.star} className="size-5" />
+              <Text className="text-white text-xs font-bold uppercase">
+                {Math.round(vote_average) / 2}
+              </Text>
+            </View>
+            <View className="flex-row justify-between items-center">
+              <Text className="text-xs text-light-300">
+                {release_date.split("-")[0]}
+              </Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     </Link>

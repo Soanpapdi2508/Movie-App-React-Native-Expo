@@ -74,7 +74,9 @@ const index = () => {
                     Trending Movies
                   </Text>
                   <FlatList
-                    ItemSeparatorComponent={() => <View className="w-8"></View>}
+                    ItemSeparatorComponent={() => <View className="w-4"></View>}
+                    alwaysBounceHorizontal={true}
+                    bounces={true}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={trendingMovies}

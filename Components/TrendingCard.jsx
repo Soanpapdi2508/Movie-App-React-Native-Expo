@@ -9,21 +9,31 @@ const TrendingCard = ({
 }) => {
   return (
     <Link href={`/movie/${movie_id}}`} asChild>
-      <TouchableOpacity className="w-32 relative pl-5">
+      <TouchableOpacity className="w-32 relative pl-5 mr-5">
         <Image
           className="w-32 h-48 rounded-lg"
           source={{ uri: poster_url }}
           resizeMode="cover"
         />
-        <View className="absolute bottom-0 -left-3 px-2 py-0 rounded-full">
+        <View className="absolute bottom-9 -left-3 px-2 py-0 rounded-full">
           <MaskedView
             maskElement={
               <Text className="font-bold text-white text-7xl">{index + 1}</Text>
             }
           >
-            <Image className="size-20" resizeMode="cover" source={images.rankingGradient} />
+            <Image
+              className="size-20"
+              resizeMode="cover"
+              source={images.rankingGradient}
+            />
           </MaskedView>
         </View>
+        <Text
+          numberOfLines={2}
+          className="text-light-200 text-sm font-bold mt-3"
+        >
+          {title}
+        </Text>
       </TouchableOpacity>
     </Link>
   );
