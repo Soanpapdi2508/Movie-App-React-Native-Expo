@@ -13,7 +13,7 @@ export const getMovies = async ({ query }) => {
       TMDB_CONFIG.HEADERS
     );
     if (!response?.data) {
-      throw new Error();
+      throw new Error("Error while getting all movies");
     }
     return response?.data?.results;
   } catch (error) {
@@ -55,8 +55,27 @@ export const getAllTrendingMovies = async () => {
       throw new Error("Error while getting movies");
     }
     return response?.data?.data;
-  } catch (error) { 
+  } catch (error) {
     console.log("Error while getting trending movies", error.message);
+    throw error;
+  }
+};
+
+export const getMovieDetail = async (movie_id) => {
+  const endpoint = `${TMDB_CONFIG.BASE_URL}/movie/${movie_id}`;
+  try {
+    const response = await apiConnector(
+      "GET",
+      endpoint,
+      null,
+      TMDB_CONFIG.HEADERS
+    );
+    if (!response?.data) {
+      throw new Error("Error while getting single movie details");
+    }
+    return response?.data;
+  } catch (error) {
+    console.log("Error while logging movie detail", error);
     throw error;
   }
 };

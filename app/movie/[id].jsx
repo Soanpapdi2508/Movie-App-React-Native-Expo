@@ -1,11 +1,24 @@
+import { images } from "@/constants/images";
+import useFetch from "@/customHooks/useFetch";
+import { getMovieDetail } from "@/Services/Operations/movieOperation";
 import { useLocalSearchParams } from "expo-router";
-import { Text, View } from "react-native";
-
+import { Image, ScrollView, View } from "react-native";
 const MovieDetails = () => {
-  const { id } = useLocalSearchParams();
+  const { id: movie_id } = useLocalSearchParams();
+  const {
+    data: moviesDetails,
+    loading: detailsLoading,
+    error: detailsError,
+  } = useFetch(() => getMovieDetail(movie_id));
+  console.log(moviesDetails);
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="font-bold color-dark-200 text-4xl">Movie Details</Text>
+    <View className="flex-1 bg-primary">
+      <Image className="w-full" source={images.bg} resizeMode="cover" />
+      <ScrollView>
+        <Image
+          className=""
+        />
+      </ScrollView>
     </View>
   );
 };

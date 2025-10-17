@@ -5,10 +5,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import "./global.css";
 
 export default function RootLayout() {
-  useEffect(() => {
-    ScreenCapture.preventScreenCaptureAsync();
-    return () => ScreenCapture.preventScreenCaptureAsync();
-  }, []);
   return (
     <SafeAreaProvider>
       <Stack>
