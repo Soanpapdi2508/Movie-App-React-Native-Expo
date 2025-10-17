@@ -13,7 +13,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <Stack>
         <Stack.Screen name="(Tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="/movie/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="movie/[id]" options={{ headerShown: false }} />
       </Stack>
     </SafeAreaProvider>
   );

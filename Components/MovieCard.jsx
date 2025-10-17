@@ -29,7 +29,7 @@ const MovieCard = ({ singleMovie }) => {
               </Text>
             </View>
             <View className="flex-row justify-between items-center">
-              <Text className="text-xs text-light-300">
+              <Text className="text-xs font-bold text-light-300">
                 {release_date.split("-")[0]}
               </Text>
             </View>
