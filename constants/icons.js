@@ -6,7 +6,7 @@ import play from "@/assets/icons/play.png";
 import save from "@/assets/icons/save.png";
 import search from "@/assets/icons/search.png";
 import star from "@/assets/icons/star.png";
-
+import trendingup from "@/assets/icons/trendingup.png";
 export const icons = {
   home,
   search,
@@ -16,4 +16,5 @@ export const icons = {
   star,
   play,
   arrow,
+  trendingup,
 };

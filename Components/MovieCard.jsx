@@ -23,7 +23,7 @@ const MovieCard = ({ singleMovie }) => {
             <View className="flex flex-row justify-start items-center gap-x-1">
               <Image source={icons.star} className="size-5" />
               <Text className="text-white text-xs font-bold uppercase">
-                {Math.round(vote_average) / 2}
+                {Number(vote_average.toFixed(1))}
               </Text>
             </View>
             <View className="flex-row justify-between items-center">
