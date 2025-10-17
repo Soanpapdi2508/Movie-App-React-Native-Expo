@@ -1,5 +1,4 @@
 import { icons } from "@/constants/icons";
-import { images } from "@/constants/images";
 import useFetch from "@/customHooks/useFetch";
 import { getMovieDetail } from "@/Services/Operations/movieOperation";
 import { router, useLocalSearchParams } from "expo-router";
@@ -31,7 +30,6 @@ const MovieDetails = () => {
   } = useFetch(() => getMovieDetail(movie_id));
   return (
     <View className="flex-1 bg-primary">
-
       {detailsLoading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator
@@ -62,8 +60,9 @@ const MovieDetails = () => {
               </Text>
               <Text className="text-md my-2 text-light-200">
                 {detailsData?.release_date.split("-")[0]} •{" "}
-                {detailsData?.runtime > 60 &&
-                  `${Math.floor(detailsData?.runtime / 60)}h ${Math.round(detailsData?.runtime % 60)}m`}
+                {detailsData?.runtime < 60
+                  ? `${Math.floor(detailsData?.runtime)}m`
+                  : `${Math.floor(detailsData?.runtime / 60)}h ${Math.round(detailsData?.runtime % 60)}m`}
               </Text>
               <View className="flex-row gap-4">
                 <View className="bg-[#221F3D] flex-row self-start items-center rounded-md px-2 py-1.5 gap-2">
@@ -183,7 +182,7 @@ const MovieDetails = () => {
         onPress={() => router.back()}
         className="absolute z-48 w-full p-2 bottom-12"
       >
-        <View className="items-center justify-center bg-accent mx-4 rounded-lg p-3 flex-row">
+        <View className="items-center justify-center bg-accent mx-4 rounded-lg p-3 gap-2 flex-row">
           <Image
             className="rotate-180"
             source={icons.arrow}
