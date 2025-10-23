@@ -1,7 +1,9 @@
 import { icons } from "@/constants/icons";
 import useFetch from "@/customHooks/useFetch";
 import { getMovieDetail } from "@/Services/Operations/movieOperation";
+import { addSaved, setSavedData } from "@/Store/Slices/Saved";
 import { router, useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -10,8 +12,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { monthNames } from "../../constants/constantData";
-
 const MovieInfo = ({ label, data }) => (
   <View className="my-2">
     <Text className="text-sm text-[#A8B5DB] font-normal">{label}</Text>
@@ -22,12 +24,30 @@ const MovieInfo = ({ label, data }) => (
 );
 
 const MovieDetails = () => {
+  const { savedData } = useSelector((state) => state.savedData);
+  const dispatch = useDispatch();
+  const [favourite, setFavourite] = useState(null);
   const { id: movie_id } = useLocalSearchParams();
   const {
     data: detailsData,
     loading: detailsLoading,
     error: detailsError,
   } = useFetch(() => getMovieDetail(movie_id));
+  const handleOnPressFavourite = () => {
+    const isMovieSaved = savedData?.some(
+      (item) => item?.id === detailsData?.id
+    );
+    if (isMovieSaved) {
+      const filterSavedMovies = savedData?.filter(
+        (item) => item?.id !== detailsData?.id
+      );
+      dispatch(setSavedData(filterSavedMovies));
+      setFavourite(false);
+    } else {
+      dispatch(addSaved(detailsData));
+      setFavourite(true);
+    }
+  };
   return (
     <View className="flex-1 bg-primary">
       {detailsLoading ? (
@@ -52,6 +72,25 @@ const MovieDetails = () => {
               />
               <TouchableOpacity className=" bg-white rounded-full absolute p-3 right-3 elevation-2xl -bottom-7 ">
                 <Image source={icons.play} className="size-10 p-2" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleOnPressFavourite}
+                className=" bg-white rounded-full absolute p-3 right-20 elevation-2xl -bottom-7 "
+              >
+                {favourite ||
+                savedData?.some((item) => item?.id === detailsData?.id) ? (
+                  <Image
+                    source={icons.favourite_filled}
+                    className="size-10 p-2"
+                    tintColor={"#EB0202"}
+                  />
+                ) : (
+                  <Image
+                    source={icons.favourite}
+                    tintColor={"#AB8BFF"}
+                    className="size-10 p-2"
+                  />
+                )}
               </TouchableOpacity>
             </View>
             <View className="px-4 py-4 flex-col">

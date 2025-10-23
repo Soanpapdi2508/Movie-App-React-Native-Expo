@@ -8,11 +8,11 @@ const savedSlice = createSlice({
   name: "savedData",
   initialState: savedInitialState,
   reducers: {
-    setSavedData: (state, value) => {
-      state.savedData = value.payload;
+    setSavedData: (state, action ) => {
+      state.savedData = action .payload;
     },
-    addSaved: (state, value) => {
-      state.savedData.push(value.payload);
+    addSaved: (state, action ) => {
+      state.savedData.push(action .payload);
     },
   },
 });

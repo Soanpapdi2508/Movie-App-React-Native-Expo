@@ -10,8 +10,10 @@ import {
   getMovies,
   updateSearchCount,
 } from "@/Services/Operations/movieOperation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 const search = () => {
   const [query, setQuery] = useState("");
@@ -57,6 +59,7 @@ const search = () => {
       />
       <FlatList
         data={movies}
+        
         renderItem={({ item }) => <MovieCard singleMovie={item} />}
         numColumns={3}
         keyExtractor={(item) => item.id.toString()}
