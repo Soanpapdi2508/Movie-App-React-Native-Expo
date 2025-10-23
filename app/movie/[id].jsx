@@ -39,7 +39,7 @@ const MovieDetails = () => {
           />
         </View>
       ) : detailsError ? (
-        <Text>{detailsError.message}</Text>
+        <Text>{detailsError?.message}</Text>
       ) : (
         <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
           <View>
@@ -50,7 +50,7 @@ const MovieDetails = () => {
                   uri: `https://image.tmdb.org/t/p/w500${detailsData?.poster_path}`,
                 }}
               />
-              <TouchableOpacity className=" bg-white rounded-full absolute p-3 right-3 -bottom-7 ">
+              <TouchableOpacity className=" bg-white rounded-full absolute p-3 right-3 elevation-2xl -bottom-7 ">
                 <Image source={icons.play} className="size-10 p-2" />
               </TouchableOpacity>
             </View>
@@ -180,7 +180,7 @@ const MovieDetails = () => {
       )}
       <TouchableOpacity
         onPress={() => router.back()}
-        className="absolute z-48 w-full p-2 bottom-12"
+        className="absolute z-48 w-full p-2 bottom-12 elevation-2xl"
       >
         <View className="items-center justify-center bg-accent mx-4 rounded-lg p-3 gap-2 flex-row">
           <Image

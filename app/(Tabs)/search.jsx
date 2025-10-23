@@ -150,7 +150,7 @@ const search = () => {
             <View>
               {(moviesError || searchError) && (
                 <Text className="my-60 self-center">
-                  Error: {moviesError.message || searchError.message}
+                  Error: {moviesError?.message || searchError?.message}
                 </Text>
               )}
             </View>

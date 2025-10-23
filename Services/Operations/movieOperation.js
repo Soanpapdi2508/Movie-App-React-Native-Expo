@@ -43,7 +43,7 @@ export const updateSearchCount = async (
 
     return response.data;
   } catch (error) {
-    console.log("❌ ERROR while Adding Recommendation:", error.message);
+    console.log("❌ ERROR while Adding Recommendation:", error?.message);
     throw error; // Re-throw to handle in calling code
   }
 };
@@ -56,7 +56,7 @@ export const getAllTrendingMovies = async () => {
     }
     return response?.data?.data;
   } catch (error) {
-    console.log("Error while getting trending movies", error.message);
+    console.log("Error while getting trending movies", error);
     throw error;
   }
 };
