@@ -5,7 +5,7 @@ const savedInitialState = {
 };
 
 const savedSlice = createSlice({
-  name: "saved",
+  name: "savedData",
   initialState: savedInitialState,
   reducers: {
     setSavedData: (state, value) => {
@@ -18,4 +18,4 @@ const savedSlice = createSlice({
 });
 
 export const { setSavedData, addSaved } = savedSlice.actions;
-export default savedSlice.reducer;
+export default savedSlice;
