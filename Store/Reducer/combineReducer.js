@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import savedSlice from "../Slices/Saved";
 
-export default rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   savedData: savedSlice.reducer,
 });
